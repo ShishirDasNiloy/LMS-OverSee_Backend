@@ -102,3 +102,15 @@ class BaseRepo(Generic[ModelType, CreateSchemaType, UpdateSchemaType], ABSRepo):
             return [{"results": len(query)}, data]
         return data
 
+
+    def update(self, db: Session, id: int, data_update: UpdateSchemaType) -> ModelType:
+        db.query(self.model).filter(self.model.id == id).update(
+            data_update.dict(exclude_unset = True), synchronize_session = False)
+        db.commit()
+        return self.get_one(db, id)
+
+
+    def delete(self, db: Session, id: int) -> Optional[Union[ModelType, Any]]:
+        result = db.query(self.model).filter(self.model.id == id).delete(synchronize_session = False)
+        db.commit
+        return result
