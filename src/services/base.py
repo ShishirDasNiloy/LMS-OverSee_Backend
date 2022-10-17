@@ -1,3 +1,4 @@
+from os import remove
 from typing import Generic, Type, TypeVar
 from sqlalchemy.orm import Session
 from fastapi import status
@@ -62,3 +63,15 @@ class BaseService(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         if not data:
             data = []
         return ServiceResult(data, status_code = status.HTTP_200_OK)
+
+    def update(self, db: Session, id: int, data_update: UpdateSchemaType):
+        data = self.repo.update(db, id, data_update)
+        if not data:
+            return ServiceResult(AppException.NotAccepted())
+        return ServiceResult(data, status_code = status.HTTP_202_ACCEPTED)
+
+    def delete(self, db: Session, id: int):
+        remove = self.repo.delete(db, id)
+        if remove:
+            return ServiceResult("Deleted", status_code = status.HTTP_202_ACCEPTED)
+        return ServiceResult(AppException.Forbidden())
