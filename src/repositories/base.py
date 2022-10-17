@@ -35,3 +35,12 @@ class BaseRepo(Generic[ModelType, CreateSchemaType, UpdateSchemaType], ABSRepo):
         db.commit()
         db.refresh(data_obj)
         return data_obj
+
+
+    def get(self, db: Session) -> List[ModelType]:
+        query = db.query(self.model).all()
+        return query
+
+
+    def get_one(self, db: Session, id: int) -> ModelType:
+        return db.query(self.model).filter(self.model.id == id).first()
