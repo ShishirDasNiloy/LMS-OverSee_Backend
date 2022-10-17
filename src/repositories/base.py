@@ -24,3 +24,14 @@ class BaseRepo(Generic[ModelType, CreateSchemaType, UpdateSchemaType], ABSRepo):
         db.commit()
         db.refresh(data)
         return data
+
+    def create_with_flush(self, db: Session, data_in: CreateSchemaType):
+        data = self.model(**data_in.dict())
+        db.add(data)
+        db.flush()
+        return data
+
+    def create_commit_after_flush(self, db: Session, data_obj: ModelType):
+        db.commit()
+        db.refresh(data_obj)
+        return data_obj
