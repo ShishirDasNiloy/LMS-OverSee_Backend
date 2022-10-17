@@ -1,0 +1,42 @@
+from typing import Generic, Type, TypeVar
+from sqlalchemy.orm import Session
+from fastapi import status
+from db import Base
+from pydantic import BaseModel
+from repositories import BaseRepo
+from exceptions import AppException, ServiceResult
+
+ModelType = TypeVar("ModelType", bound = Base)
+CreateSchemaType = TypeVar("CreateSchemaType", bound =  BaseModel)
+UpdateSchemaType = TypeVar("UpdateSchemaType", bound = BaseModel)
+ModelRepo = TypeVar("ModelRepo", bound = BaseRepo)
+
+class BaseService(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
+
+    def __init__(self, model: Type[ModelType], repo: Type[ModelRepo]):
+        self.model = model
+        self.repo = repo
+
+    def create(self, db: Session, data_in: CreateSchemaType):
+        data = self.repo.create(db, data_in)
+        if not data:
+            return ServiceResult(AppException.ServerError("Something Went Wrong!"))
+        return ServiceResult(data, status_code = status.HTTP_201_CREATED)
+
+    def create_with_flush(self, db: Session, data_in: CreateSchemaType):
+        data = self.repo.create(db, data_in)
+        if not data:
+            return ServiceResult(AppException.ServerError("Something Went Wrong!"))
+        return ServiceResult(data, status_code = status.HTTP_201_CREATED)
+
+    def get(self, db: Session):
+        data = self.repo.get(db)
+        if not data:
+            data = []
+        return ServiceResult(data, status_code = status.HTTP_200_OK)
+
+    def get_one(self, db: Session, id: int):
+        data = self.repo.get_one(db, id)
+        if not data:
+            return ServiceResult(AppException.NotFound(f"No {self.model.__name__.lower}s found."))
+        return ServiceResult(data, status_code = status.HTTP_200_OK)
