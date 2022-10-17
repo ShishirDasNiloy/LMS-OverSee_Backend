@@ -40,3 +40,15 @@ class BaseService(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         if not data:
             return ServiceResult(AppException.NotFound(f"No {self.model.__name__.lower}s found."))
         return ServiceResult(data, status_code = status.HTTP_200_OK)
+
+    def get_with_pagination(self, db: Session, skip: int, limit: int, descending: bool = False, count_results: bool = False):
+        data = self.repo.get_with_pagination(db = db, skip = skip, limit = limit, descending = descending, count_results = count_results)
+
+        if not data:
+            if count_results is True:
+                data = [{"results": 0}, []]
+            else:
+                data = []
+        return ServiceResult(data, status_code = status.HTTP_200_OK)
+
+    
