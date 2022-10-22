@@ -6,8 +6,15 @@ from db import settings
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from exceptions import AppExceptionCase, AppException, app_exception_handler
 
 app = FastAPI(title = 'OverSee')
+
+
+@app.exception_handler(AppExceptionCase)
+def custom_app_exception_handler(request: Request, exc: AppException):
+    print(exc)
+    return app_exception_handler(request, exc)
 
 
 parent_path = os.path.dirname(os.path.realpath(__file__))
