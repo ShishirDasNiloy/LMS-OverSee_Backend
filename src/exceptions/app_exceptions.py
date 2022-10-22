@@ -18,7 +18,7 @@ class AppExceptionCase(Exception):
         self.context = context
 
     def __repr__(self) -> str:
-        return f"<Appexception {self.exception_case} - status_code = {self.status_code} context = {self.context}"
+        return f"<Appexception {self.exception_case} - status_code = {self.status_code} context = {self.context}>"
 
 
 def app_exception_handler(request: Request, exception: AppExceptionCase):
