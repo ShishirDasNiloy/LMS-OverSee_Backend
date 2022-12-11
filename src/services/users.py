@@ -2,10 +2,10 @@ from utils import Token
 from sqlalchemy.orm import Session
 from exceptions import ServiceResult
 from exceptions import AppException
-from repositories import users_repo, roles_repo, login_log_repo
+from repositories import users_repo, roles_repo
 from services import BaseService
 from models import User
-from schemas import UserCreate, UserUpdate, UserIn, LoginLogIn
+from schemas import UserCreate, UserUpdate, UserIn
 from utils import password_hash, verify_password
 from fastapi import status
 
@@ -60,7 +60,7 @@ class UserService(BaseService[User, UserCreate, UserUpdate]):
 
         if user is not None:
             # create log
-            ll = login_log_repo.create(db=db, data_in=LoginLogIn(user_id=user.id))
+            # ll = login_log_repo.create(db=db, data_in=LoginLogIn(user_id=user.id))
 
             access_token = Token.create_access_token({"sub": user.id})
             return ServiceResult({"access_token": access_token, "token_type": "bearer"}, status_code=200)
