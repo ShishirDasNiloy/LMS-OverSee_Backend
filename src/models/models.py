@@ -34,11 +34,7 @@ class UserDetail(BaseModel):
     blood_group = Column(String(5), nullable=True)
 
     user = relationship("User", back_populates="user_details")
-
-
-class LoginLog(BaseModel):
-    __tablename__ = "login_log"
-    user_id = Column(Integer, ForeignKey("users.id"))
+    
 
 
 class Teacher(BaseModel):
