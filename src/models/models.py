@@ -77,3 +77,12 @@ class ClassRoomWithUser(BaseModel):
     __tablename__ = "class_room_with_user"
     class_room_id = Column(Integer, ForeignKey("class_room.id"))
     user_id = Column(Integer, ForeignKey("users.id"))
+
+
+class Topic(BaseModel):
+    __tablename__ = "topic"
+    class_room_id = Column(Integer, ForeignKey("class_room.id"))
+    created_by =  Column(Integer, nullable = False)
+    topic_name = Column(String, nullable = False)
+    topic_type = Column(String, nullable = True)
+    topic_details = Column(Text, nullable = True)
