@@ -62,23 +62,3 @@ class NewPasswordIn(BaseModel):
     password: str
 
 
-
-# Login Log Schemas
-
-
-class LoginLogIn(BaseModel):
-    user_id: int
-
-
-class LoginLogUpdate(BaseModel):
-    user_id: Optional[int] = None
-
-
-class LoginLogLogout(BaseModel):
-    user_id: int
-    name: str
-    created_at: datetime = Field(alias='login_time')
-
-    class Config:
-        orm_mode = True
-        allow_population_by_field_name = True
