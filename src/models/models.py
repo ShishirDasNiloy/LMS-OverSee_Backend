@@ -53,5 +53,12 @@ class Teacher(BaseModel):
     user_teacher = relationship("User", back_populates = "teacher")
 
 
-    
 
+class Stdent(BaseModel):
+    __tablename__ = "students"
+    user_id = Column(Integer, ForeignKey("users.id"))
+    student_id = Column(String(20), nullable = True)
+    admition_year = Column(Date, nullable = True)
+    batch = Column(String(20), nullable = True)
+
+    user_student = relationship("User", back_populates = "student")
