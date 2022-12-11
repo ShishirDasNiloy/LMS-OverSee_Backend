@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from typing import Optional
 from db import settings
 from exceptions import *
-from schemas.token import TokenData
+from schemas.tokens import TokenData
 from jose import jwt, JWTError, ExpiredSignatureError
 
 
