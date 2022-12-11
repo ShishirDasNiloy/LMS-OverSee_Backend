@@ -13,6 +13,7 @@ class User(BaseModel):
     role_id = Column(Integer, ForeignKey("roles.id"))
 
     role = relationship("Role", back_populates="user")
+    user_details = relationship("UserDetail", back_populates="user")
 
 
 class Role(BaseModel):
@@ -20,6 +21,15 @@ class Role(BaseModel):
     name = Column(String(100), nullable = False, unique = True)
 
     user = relationship("User", back_populates = "role")
+
+
+class UserDetails(BaseModel):
+    __tablename__ = "user_details"
+    user_id = Column(Integer, ForeignKey("users.id"))
+    fathers_name = Column(String(100), nullable = True)
+    mothers_name = Column(String(100), nullable = True)
+    dob = Column(Date, nullable=True)
+    blood_group = Column(String(5), nullable=True)
 
 
 class LoginLog(BaseModel):
