@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, Integer, String, Boolean, Date
+from sqlalchemy import Column, ForeignKey, Integer, String, Boolean, Date, Text
 from models.base import BaseModel
 from sqlalchemy.orm import relationship
 
@@ -62,3 +62,11 @@ class Stdent(BaseModel):
     batch = Column(String(20), nullable = True)
 
     user_student = relationship("User", back_populates = "student")
+
+
+class ClassRoom(BaseModel):
+    __tablename__ = "class_room"
+    created_by =  Column(Integer, nullable = False)
+    classroom_name = Column(String(255), nullable = False)
+    class_room_code = Column(String(100), nullable = False)
+    class_room_details = Column(Text, nullable = True)
