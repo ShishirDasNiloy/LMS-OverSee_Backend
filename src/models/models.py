@@ -70,3 +70,10 @@ class ClassRoom(BaseModel):
     classroom_name = Column(String(255), nullable = False)
     class_room_code = Column(String(100), nullable = False)
     class_room_details = Column(Text, nullable = True)
+
+
+
+class ClassRoomWithUser(BaseModel):
+    __tablename__ = "class_room_with_user"
+    class_room_id = Column(Integer, ForeignKey("class_room.id"))
+    user_id = Column(Integer, ForeignKey("users.id"))
