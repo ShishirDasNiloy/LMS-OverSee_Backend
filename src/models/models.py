@@ -86,3 +86,10 @@ class Topic(BaseModel):
     topic_name = Column(String, nullable = False)
     topic_type = Column(String, nullable = True)
     topic_details = Column(Text, nullable = True)
+
+
+class TopicDiscuss(BaseModel):
+    __tablename__ = "topic_discuss"
+    topic_id = Column(Integer, ForeignKey("topic.id"))
+    user_id = Column(Integer, ForeignKey("users.id"))
+    discussion_details = Column(Text, nullable = True)
