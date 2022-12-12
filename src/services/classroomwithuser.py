@@ -1,0 +1,7 @@
+from models import ClassRoomWithUser
+from schemas import ClassRoomWithUserIn, ClassRoomWithUserUpdate
+from repositories import class_room_with_user_repo
+from services import BaseService
+
+
+class_room_with_user_service = BaseService[ClassRoomWithUser, ClassRoomWithUserIn, ClassRoomWithUserUpdate](ClassRoomWithUser, class_room_with_user_repo)
