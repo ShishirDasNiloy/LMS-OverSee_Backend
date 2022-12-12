@@ -4,3 +4,4 @@ from .roles import *
 from .admin import *
 from .user_details import *
 from .teacher import *
+from .student import *
