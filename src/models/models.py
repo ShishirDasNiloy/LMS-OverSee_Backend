@@ -51,7 +51,7 @@ class Teacher(BaseModel):
 
 
 
-class Stdent(BaseModel):
+class Student(BaseModel):
     __tablename__ = "students"
     user_id = Column(Integer, ForeignKey("users.id"))
     student_id = Column(String(20), nullable = True)
