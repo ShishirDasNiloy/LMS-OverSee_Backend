@@ -41,6 +41,7 @@ class Teacher(BaseModel):
     __tablename__ = "teachers"
     user_id = Column(Integer, ForeignKey("users.id"))
     teacher_id = Column(String(20), nullable = True)
+    department = Column(String(255), nullable = True)
     designation = Column(String(50), nullable = True)
     degree = Column(String(255), nullable=True)
     institute = Column(String(255), nullable = True)
@@ -54,6 +55,7 @@ class Stdent(BaseModel):
     __tablename__ = "students"
     user_id = Column(Integer, ForeignKey("users.id"))
     student_id = Column(String(20), nullable = True)
+    department = Column(String(255), nullable = True)
     admition_year = Column(Date, nullable = True)
     batch = Column(String(20), nullable = True)
 
