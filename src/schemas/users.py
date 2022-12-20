@@ -62,3 +62,9 @@ class NewPasswordIn(BaseModel):
     password: str
 
 
+class ResultInt(BaseModel):
+    results: int
+
+    class Config:
+        orm_mode = True
+
