@@ -1,4 +1,5 @@
 from .base import *
+from .base_abstruct import*
 from .users import *
 from .roles import *
 from .admin import *
