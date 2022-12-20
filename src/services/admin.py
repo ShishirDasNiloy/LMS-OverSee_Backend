@@ -5,6 +5,7 @@ from models import User
 from repositories import admin_repo, roles_repo
 from sqlalchemy.orm import Session
 from exceptions import ServiceResult, AppException
+from fastapi import status
 
 
 class Admin(BaseService[User, UserCreate, UserUpdate]):
@@ -32,6 +33,45 @@ class Admin(BaseService[User, UserCreate, UserUpdate]):
             return signup_admin
 
         return ServiceResult(AppException.ServerError('Admin exist'))
+
+
+    def user_active_switcher(self, db: Session, id: int):
+        data = self.repo.user_active_switcher(db=db, id=id)
+
+        if not data:
+            return ServiceResult(AppException.ServerError("User active status not changed"))
+        else:
+            return ServiceResult(data, status_code=status.HTTP_201_CREATED)
+    
+    
+    def active_teachers(self, db: Session, skip: int, limit: int):
+        data = self.repo.active_teachers(db=db, skip=skip, limit=limit)
+        if not data:
+            return ServiceResult(AppException.ServerError("no active teacher"))
+        else:
+            return ServiceResult(data, status_code=status.HTTP_201_CREATED)
+
+    def inactive_teachers(self, db: Session, skip: int, limit: int):
+        data = self.repo.inactive_teachers(db=db, skip=skip, limit=limit)
+        if not data:
+            return ServiceResult(AppException.ServerError("no inactive teacher"))
+        else:
+            return ServiceResult(data, status_code=status.HTTP_201_CREATED)
+
+
+    def active_students(self, db: Session, skip: int, limit: int):
+        data = self.repo.active_students(db=db, skip=skip, limit=limit)
+        if not data:
+            return ServiceResult(AppException.ServerError("no active student"))
+        else:
+            return ServiceResult(data, status_code=status.HTTP_201_CREATED)
+
+    def inactive_students(self, db: Session, skip: int, limit: int):
+        data = self.repo.inactive_students(db=db, skip=skip, limit=limit)
+        if not data:
+            return ServiceResult(AppException.ServerError("no inactive student"))
+        else:
+            return ServiceResult(data, status_code=status.HTTP_201_CREATED)
 
 
 
