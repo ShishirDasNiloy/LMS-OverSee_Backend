@@ -7,8 +7,17 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from exceptions import AppExceptionCase, AppException, app_exception_handler
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title = 'OverSee')
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.exception_handler(AppExceptionCase)
