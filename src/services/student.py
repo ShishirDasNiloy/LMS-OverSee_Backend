@@ -36,6 +36,7 @@ class StudentService(BaseService[Student, StudentIn, StudentUpdate]):
         student_create = self.create_with_flush(db=db, data_in=student_data)
 
         db.commit()
+        return ServiceResult({"msg": "Success"}, status_code=200)
         
 
     def login(self, db: Session, identifier: str, password: str):
