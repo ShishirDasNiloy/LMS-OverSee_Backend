@@ -14,6 +14,11 @@ class ClassRoomBase(BaseModel):
 class ClassRoomIn(ClassRoomBase):
     pass
 
+class ClassRoomCreate(BaseModel):
+    classroom_name: Optional[str] = None
+    class_room_code: Optional[str] = None
+    class_room_details : Optional[str] = None
+
 
 class ClassRoomUpdate(BaseModel):
     classroom_name: Optional[str] = None
