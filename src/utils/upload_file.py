@@ -68,7 +68,7 @@ class UploadFileUtils:
  
         return f'{prefix}{random_string}{millisecond}{file_extension}'
 
-    def upload_files(self, path = './assets/pdf', accept_extensions = [], prefix='topic', add_random_string = True, add_millisecond = True):
+    def upload_files(self, path = './assets/files', accept_extensions = [], prefix='topic', add_random_string = True, add_millisecond = True):
 
         # path url
         if path.endswith('/') == False:
