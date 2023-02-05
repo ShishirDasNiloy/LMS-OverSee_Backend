@@ -85,6 +85,7 @@ class Topic(BaseModel):
     topic_name = Column(String(255), nullable = False)
     topic_type = Column(String(255), nullable = True)
     topic_details = Column(Text, nullable = True)
+    image_pdf_string = Column(String(255), nullable = True)
 
 
 class TopicDiscuss(BaseModel):
