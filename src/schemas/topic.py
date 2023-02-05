@@ -5,14 +5,22 @@ from typing import Optional
 
 class TopicBase(BaseModel):
     class_room_id: int
-    created_by: str
+    created_by: int
     topic_name: str
     topic_type: Optional[str] = None
     topic_details: Optional[str] = None
+    image_pdf_string: Optional[str] = None
 
 
 class TopicIn(TopicBase):
     pass
+
+class TopicCreate(BaseModel):
+    class_room_id: int
+    topic_name: str
+    topic_type: Optional[str] = None
+    topic_details: Optional[str] = None
+    # image_pdf_string: Optional[str] = None
 
 class TopicUpdate(BaseModel):
     topic_name: Optional[str] = None
