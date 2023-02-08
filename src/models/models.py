@@ -88,24 +88,31 @@ class Topic(BaseModel):
     image_pdf_string = Column(String(255), nullable = True)
 
 
-class TopicDiscuss(BaseModel):
-    __tablename__ = "topic_discuss"
-    topic_id = Column(Integer, ForeignKey("topic.id"))
-    user_id = Column(Integer, ForeignKey("users.id"))
-    discussion_details = Column(Text, nullable = True)
+class Notice(BaseModel):
+    __tablename__ = "notice"
+    created_by =  Column(Integer, nullable = False)
+    notice_title = Column(String(255), nullable = False)
+    notice_details = Column(Text, nullable = True)
+
+# Not Worked
+# class TopicDiscuss(BaseModel):
+#     __tablename__ = "topic_discuss"
+#     topic_id = Column(Integer, ForeignKey("topic.id"))
+#     user_id = Column(Integer, ForeignKey("users.id"))
+#     discussion_details = Column(Text, nullable = True)
 
 
-class ImagesLog(BaseModel):
-    __tablename__ = "image_log"
-    user_id = Column(Integer, ForeignKey("users.id"))
-    name = Column(String(100))
-    service_name = Column(String(100))
-    image_string = Column(String(255))
+# class ImagesLog(BaseModel):
+#     __tablename__ = "image_log"
+#     user_id = Column(Integer, ForeignKey("users.id"))
+#     name = Column(String(100))
+#     service_name = Column(String(100))
+#     image_string = Column(String(255))
 
 
-class PdfLog(BaseModel):
-    __tablename__ = "pdf_log"
-    user_id = Column(Integer, ForeignKey("users.id"))
-    name = Column(String(100))
-    service_name = Column(String(100))
-    pdf_string = Column(String(255))
+# class PdfLog(BaseModel):
+#     __tablename__ = "pdf_log"
+#     user_id = Column(Integer, ForeignKey("users.id"))
+#     name = Column(String(100))
+#     service_name = Column(String(100))
+#     pdf_string = Column(String(255))
