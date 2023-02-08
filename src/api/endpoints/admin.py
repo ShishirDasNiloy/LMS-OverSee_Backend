@@ -45,3 +45,8 @@ def active_students(skip: int = 0, limit: int = 10, db: Session = Depends(get_db
 def inactive_students(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     iat = admin_service.inactive_students(db=db, skip=skip, limit=limit)
     return handle_result(iat)
+
+@router.get('/dashboard/results')
+def count_results(db: Session = Depends(get_db)):
+    cs = admin_service.count_results(db=db)
+    return handle_result(cs)

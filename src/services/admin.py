@@ -73,6 +73,13 @@ class Admin(BaseService[User, UserCreate, UserUpdate]):
         else:
             return ServiceResult(data, status_code=status.HTTP_201_CREATED)
 
+    def count_results(self, db: Session):
+        data = self.repo.count_results(db=db)
+        if not data:
+            return ServiceResult(AppException.ServerError("no data"))
+        else:
+            return ServiceResult(data, status_code=status.HTTP_201_CREATED)
+
 
 
 admin_service = Admin(User, admin_repo)
