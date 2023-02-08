@@ -8,4 +8,5 @@ from .student import *
 from .classroom import *
 from .classroomwithuser import *
 from .topic import *
-from .topicdiscuss import *
+from .notice import *
+# from .topicdiscuss import *
