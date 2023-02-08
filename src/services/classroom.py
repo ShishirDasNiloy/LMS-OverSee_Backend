@@ -32,7 +32,7 @@ class ClassRoomService(BaseService[ClassRoom, ClassRoomIn, ClassRoomUpdate]):
 
     def classroom_by_teacher(self, db: Session, user_id: int):
         get_class = self.repo.classroom_by_teacher(db=db, user_id=user_id)
-        print(user_id)
+        # print(user_id)
         return get_class
 
 
