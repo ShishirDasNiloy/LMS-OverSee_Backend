@@ -1,79 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', path='/css/index.css') }}">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', path='/css/index.css') }}"
+    />
 
     <title>OverSee API</title>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <div class="left">
-            <div class="left-content">
-                <h1><span style="color: black;">O</span>ver<span style="color:black;">S</span>ee</h1>
-                <h3>A Project Management Tool</h3>
-                <a href="/docs" target="_blank">API Docs</a>
-            </div>
+      <div class="left">
+        <div class="left-content">
+          <h1>
+            <span style="color: black">O</span>ver<span style="color: black"
+              >S</span
+            >ee
+          </h1>
+          <h3>A Class Management System</h3>
+          <a href="/docs" target="_blank">API Docs</a>
         </div>
-        <div class="right">
-            <div class="form-container">
-                <h2>Login For Token</h2>
-                <form>
-                    <label for="user">Email or Phone Number</label>
-                    <input type="text" id="user">
-                    <label for="pass">Password</label>
-                    <input type="password" id="pass">
-                    <input type="button" onclick="get()" value='Submit' >
-                </form>
-                <textarea id="token" class="token" onclick="cp()" readonly="readonly"></textarea>
-            </div>
+      </div>
+      <div class="right">
+        <div class="form-container">
+          <h2>Login For Token</h2>
+          <form>
+            <label for="user">Email or Phone Number</label>
+            <input type="text" id="user" />
+            <label for="pass">Password</label>
+            <input type="password" id="pass" />
+            <input type="button" onclick="get()" value="Submit" />
+          </form>
+          <textarea
+            id="token"
+            class="token"
+            onclick="cp()"
+            readonly="readonly"
+          ></textarea>
         </div>
+      </div>
     </div>
     <script>
-        function get(){
-            let user = document.getElementById('user').value
-            let pass = document.getElementById('pass').value
+      function get() {
+        let user = document.getElementById("user").value;
+        let pass = document.getElementById("pass").value;
 
-            let funFetch = async ()=>{
+        let funFetch = async () => {
+          let logFetch = await fetch(`http://127.0.0.1:8000/api/login`, {
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            dataType: "json",
+            method: "POST",
+            body: JSON.stringify({
+              identifier: user,
+              password: pass,
+            }),
+          });
 
-                let logFetch = await fetch(`http://127.0.0.1:8000/api/login`, {
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                    },
-                    dataType: 'json',
-                    method: 'POST',
-                    body: JSON.stringify({
-                        identifier: user,
-                        password: pass,
-                    }),
-                })
+          let log = await logFetch.json();
 
-                let log = await logFetch.json()
+          if (logFetch.ok) {
+            document.getElementById("token").value = log.access_token;
+            console.log(log);
+          } else {
+            document.getElementById("token").value = log.context;
+          }
+        };
+        funFetch();
+      }
 
-                if (logFetch.ok) {
-                    document.getElementById('token').value = log.access_token
-                    console.log(log)
-                } else {
-                    document.getElementById('token').value = log.context
-                }
-            }
-            funFetch()
+      function cp() {
+        var copyText = document.getElementById("token");
 
-        }
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
 
-        function cp(){
-            var copyText = document.getElementById("token");
+        navigator.clipboard.writeText(copyText.value);
 
-            copyText.select();
-            copyText.setSelectionRange(0, 99999); 
-
-            navigator.clipboard.writeText(copyText.value);
-
-            alert("Copied the text: " + copyText.value);
-        }
+        alert("Copied the text: " + copyText.value);
+      }
     </script>
-</body>
+  </body>
 </html>
