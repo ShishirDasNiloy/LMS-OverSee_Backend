@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, UploadFile, File
 from db import get_db
 from exceptions.service_result import handle_result
-from schemas import TeacherSignup, TeacherOut, UserLogin, ClassRoomCreate, TopicCreate, TopicIn
+from schemas import TeacherSignup, TeacherOut, UserLogin, ClassRoomCreate, TopicCreate, TopicIn, NoticeCreate
 from sqlalchemy.orm import Session
-from services import teacher_service, class_room_service, topic_service
+from services import teacher_service, class_room_service, topic_service, notice_service
 from typing import List
 from schemas import Token
 from api.auth_dependcies import logged_in_teacher, logged_in
@@ -78,3 +78,19 @@ async def upload_file(class_room_id: int, topic_name: str, topic_type: Optional[
     file_in_db = topic_service.create(db=db, data_in=TopicIn(class_room_id=class_room_id, created_by=current_user.id, topic_name=topic_name, topic_type=topic_type, topic_details=topic_details, image_pdf_string=new_file_name))
 
     return handle_result(file_in_db)
+
+
+@router.post('/create-notice')
+def create_class(data_in: NoticeCreate, db: Session = Depends(get_db), current_user: Session = Depends(logged_in_teacher)):
+    cn = notice_service.create_notice_teacher(db=db, data_in=data_in, user_id=current_user.id)
+    return handle_result(cn)
+
+@router.get('/notice_by_user/')
+def get_notice(db: Session = Depends(get_db), current_user: Session = Depends(logged_in_teacher)):
+    get_notice = notice_service.notice_by_teacher(db=db, user_id=current_user.id)
+    return get_notice
+
+@router.get('/all-notice')
+def get_all_notice(db: Session = Depends(get_db)):
+    gan = notice_service.all_notice(db=db)
+    return gan
