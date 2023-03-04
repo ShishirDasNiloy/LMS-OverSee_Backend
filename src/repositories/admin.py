@@ -18,7 +18,7 @@ class AdminRepo(BaseRepo[User, UserCreate, UserUpdate]):
     def active_teachers(self, db: Session, skip: int, limit: int):
         data_count = db.query(self.model).filter(
             self.model.is_active == True).filter(self.model.role_id == 2).all()
-        data = db.query(self.model).filter(self.model.is_active == True).filter(
+        data = db.query(self.model,Teacher).join(Teacher, Teacher.user_id == self.model.id).filter(self.model.is_active == True).filter(
             self.model.role_id == 2).offset(skip).limit(limit).all()
         return [{"results": len(data_count)}, data]
 
