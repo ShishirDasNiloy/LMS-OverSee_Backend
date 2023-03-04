@@ -94,6 +94,31 @@ class Notice(BaseModel):
     notice_title = Column(String(255), nullable = False)
     notice_details = Column(Text, nullable = True)
 
+class Exam(BaseModel):
+    __tablename__ = "exam"
+    user_id = Column(Integer, ForeignKey("users.id"))
+    course_name = Column(String(255), nullable = False)
+    course_code = Column(String(50), nullable = False)
+    exam_code = Column(String(50), nullable = False)
+    exam_type = Column(String(255), nullable = False)
+    total_marks = Column(Integer, nullable = False)
+    time = Column(String(50), nullable = False)
+
+class ExamQuestions(BaseModel):
+    __tablename__ = "exam_questions"
+    exam_id = Column(Integer, ForeignKey("exam.id"))
+    question = Column(Text, nullable = True)
+    mark = Column(Integer, nullable = True)
+
+
+class ExamAns(BaseModel):
+    __tablename__ = "exam_ans"
+    exam_id = Column(Integer, ForeignKey("exam.id"))
+    user_id = Column(Integer, ForeignKey("users.id"))
+    mark =  Column(Integer, nullable = True)
+    ans_file_string = Column(String(255), nullable = True)
+
+
 # Not Worked
 # class TopicDiscuss(BaseModel):
 #     __tablename__ = "topic_discuss"
