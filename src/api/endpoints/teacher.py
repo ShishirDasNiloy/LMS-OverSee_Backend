@@ -1,14 +1,15 @@
 from fastapi import APIRouter, Depends, UploadFile, File
 from db import get_db
 from exceptions.service_result import handle_result
-from schemas import TeacherSignup, TeacherOut, UserLogin, ClassRoomCreate, TopicCreate, TopicIn, NoticeCreate
+from schemas import TeacherSignup, TeacherOut, UserLogin, ClassRoomCreate, TopicCreate, TopicIn, NoticeCreate, ExamWithQuestions
 from sqlalchemy.orm import Session
-from services import teacher_service, class_room_service, topic_service, notice_service
+from services import teacher_service, class_room_service, topic_service, notice_service, exam_service
 from typing import List
 from schemas import Token
 from api.auth_dependcies import logged_in_teacher, logged_in
 from utils import UploadFileUtils
 from typing import Optional
+from repositories import exam_repo
 
 router = APIRouter()
 
@@ -94,3 +95,14 @@ def get_notice(db: Session = Depends(get_db), current_user: Session = Depends(lo
 def get_all_notice(db: Session = Depends(get_db)):
     gan = notice_service.all_notice(db=db)
     return gan
+
+
+@router.post("/create-exam")
+def creat_exam(data_in: ExamWithQuestions, db: Session = Depends(get_db), current_user: Session = Depends(logged_in)):
+    ce = exam_service.create_exam(db=db, data_in=data_in,user_id=current_user.id)
+    return handle_result(ce)
+
+@router.get('/exams_by_user/')
+def get_exams(db: Session = Depends(get_db), current_user: Session = Depends(logged_in_teacher)):
+    get_exam = exam_repo.exam_by_teacher(db=db, user_id=current_user.id)
+    return get_exam
