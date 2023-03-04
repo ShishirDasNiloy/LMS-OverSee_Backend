@@ -23,6 +23,8 @@ app.add_middleware(
 )
 
 
+
+
 @app.exception_handler(AppExceptionCase)
 def custom_app_exception_handler(request: Request, exc: AppException):
     print(exc)
@@ -63,6 +65,7 @@ parent_path = os.path.dirname(os.path.realpath(__file__))
 app.mount('/static/', StaticFiles(directory=f'{parent_path}/static'), name='static')
 app.mount('/api/images/', StaticFiles(directory=f'{parent_path}/assets/img'), name='img')
 app.mount('/api/pdf/', StaticFiles(directory=f'{parent_path}/assets/pdf'), name='pdf')
+app.mount('/api/files/', StaticFiles(directory=f'{parent_path}/assets/files'), name='files')
 
 
 templates = Jinja2Templates(directory='templates')
