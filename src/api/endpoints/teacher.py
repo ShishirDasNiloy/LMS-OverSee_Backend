@@ -3,13 +3,13 @@ from db import get_db
 from exceptions.service_result import handle_result
 from schemas import TeacherSignup, TeacherOut, UserLogin, ClassRoomCreate, TopicCreate, TopicIn, NoticeCreate, ExamWithQuestions
 from sqlalchemy.orm import Session
-from services import teacher_service, class_room_service, topic_service, notice_service, exam_service
+from services import teacher_service, class_room_service, topic_service, notice_service, exam_service, exam_questions_service, exam_ans_service
 from typing import List
-from schemas import Token
+from schemas import Token, ExamAnsUpdate
 from api.auth_dependcies import logged_in_teacher, logged_in
 from utils import UploadFileUtils
 from typing import Optional
-from repositories import exam_repo
+from repositories import exam_repo, exam_ans_repo
 
 router = APIRouter()
 
@@ -106,3 +106,26 @@ def creat_exam(data_in: ExamWithQuestions, db: Session = Depends(get_db), curren
 def get_exams(db: Session = Depends(get_db), current_user: Session = Depends(logged_in_teacher)):
     get_exam = exam_repo.exam_by_teacher(db=db, user_id=current_user.id)
     return get_exam
+
+
+@router.get('/question-by-exam')
+def get_all(exam_id: int, db: Session = Depends(get_db)):
+    ge = exam_questions_service.get_questions_by_exam(db=db, exam_id=exam_id)
+    return ge
+
+@router.get('/exam-details-by-id')
+def get_ed(exam_id: int, db: Session = Depends(get_db)):
+    ed = exam_service.get_one(db=db, id=exam_id)
+    return handle_result(ed)
+
+
+@router.get('/ans-by-exam')
+def get_all(exam_id: int, db: Session = Depends(get_db)):
+    gea = exam_ans_service.exam_ans(db=db, exam_id=exam_id)
+    return handle_result(gea)
+
+
+@router.patch('/mark-update/')
+def update_mark(id: int, data_update: ExamAnsUpdate,  db: Session = Depends(get_db)):
+    mu = exam_ans_service.update(db=db, id=id, data_update= data_update)
+    return handle_result(mu)
