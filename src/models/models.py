@@ -119,6 +119,12 @@ class ExamAns(BaseModel):
     ans_file_string = Column(String(255), nullable = True)
 
 
+class ExamWithStudent(BaseModel):
+    __tablename__ = "exam_with_student"
+    exam_id = Column(Integer, ForeignKey("exam.id"))
+    user_id = Column(Integer, ForeignKey("users.id"))
+
+
 # Not Worked
 # class TopicDiscuss(BaseModel):
 #     __tablename__ = "topic_discuss"
