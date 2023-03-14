@@ -7,7 +7,12 @@ from sqlalchemy import desc
 
 
 class ExamQuestionsRepo(BaseRepo[ExamQuestions, ExamQuestionsIn, ExamQuestionsUpdate]):
-    pass
+    
+    def get_questions_by_exam(self, db: Session, exam_id: int):
+
+        data = db.query(self.model).filter(self.model.exam_id ==  exam_id).all()
+        return data
+
 
 
 exam_questions_repo = ExamQuestionsRepo(ExamQuestions)
