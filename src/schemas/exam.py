@@ -82,3 +82,54 @@ class ExamQuestionsOut(ExamQuestionsBase):
 class ExamWithQuestions(BaseModel):
     exam : ExamCreate
     exam_questions: List[ExamQuestionsIn]
+
+
+# Exam Answers
+class ExamAnsBase(BaseModel):
+    exam_id: int
+    user_id: int
+    mark: Optional[int]
+    ans_file_string: Optional[str] = None
+
+class ExamAnsIn(ExamAnsBase):
+    pass
+
+class ExamAnsSubmit(BaseModel):
+    exam_id: int
+    user_id: int
+    ans_file_string: Optional[str] = None
+
+
+class ExamAnsUpdate(BaseModel):
+    mark: Optional[int]
+
+class ExamAnsOut(ExamAnsBase):
+    id: int
+    created_at: datetime
+
+    class Config:
+        orm_mode = True
+
+
+#Exam With Stu
+
+class ExamWithStudentBase(BaseModel):
+    exam_id: int
+    user_id: int
+
+
+
+class ExamWithStudentIn(ExamWithStudentBase):
+    pass
+
+
+class ExamWithStudentUpdate(BaseModel):
+    pass
+
+
+class ExamWithStudentOut(ExamWithStudentBase):
+    id: int
+    created_at: datetime
+
+    class Config:
+        orm_mode = True
