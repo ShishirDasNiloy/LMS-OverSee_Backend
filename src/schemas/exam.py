@@ -97,6 +97,7 @@ class ExamAnsIn(ExamAnsBase):
 class ExamAnsSubmit(BaseModel):
     exam_id: int
     user_id: int
+    mark: Optional[int]
     ans_file_string: Optional[str] = None
 
 

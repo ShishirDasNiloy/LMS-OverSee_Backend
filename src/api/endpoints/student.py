@@ -80,7 +80,7 @@ async def upload_file(exam_id: int, file: Optional[UploadFile] = File(None), db:
     if len(temp) == 0 :
     # save in db
         new_file_name = up_img.upload_pdf(prefix='exam-ans', path='./assets/pdf', accept_extensions=['pdf'])
-        file_in_db = exam_ans_service.create(db=db, data_in=ExamAnsSubmit(exam_id=exam_id, user_id=current_user.id, ans_file_string=new_file_name))
+        file_in_db = exam_ans_service.create(db=db, data_in=ExamAnsSubmit(exam_id=exam_id, user_id=current_user.id, mark=0, ans_file_string=new_file_name))
         print("Created")
 
     else: 
