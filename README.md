@@ -1,5 +1,7 @@
 # OverSee
 
+> Learning Management System for Teachers and Students.
+
 ## .env
 ```
 SECRET_KEY = a7fc60e3f027b856de1a4815188321ea786bf25fa1860d31688fd98b2c530bd0
