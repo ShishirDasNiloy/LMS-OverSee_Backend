@@ -39,13 +39,13 @@ def logged_in_admin(credentials: HTTPBasicCredentials = Depends(security), db: S
         raise AppException.Unauthorized()
 
 
-def logged_in_moderator(credentials: HTTPBasicCredentials = Depends(security), db: Session = Depends(get_db)):
+def logged_in_teacher(credentials: HTTPBasicCredentials = Depends(security), db: Session = Depends(get_db)):
     user = logged_in(credentials, db)
 
     role_name = roles_service.get_one(db, user.role_id)
     role_name_obj = handle_result(role_name)
 
-    if role_name_obj.name in ['admin', 'moderator']:
+    if role_name_obj.name in ['admin', 'teacher']:
         if not user:
             raise AppException.Unauthorized()
         return user

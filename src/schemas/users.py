@@ -2,6 +2,7 @@ from datetime import datetime
 from typing import Optional
 from pydantic import BaseModel, Field
 from pydantic.types import constr
+from .teacher import TeacherOut
 
 class UserBase(BaseModel):
     name: str
@@ -57,8 +58,18 @@ class UserLogin(BaseModel):
     identifier: str
     password: str
 
+class UserOutWithTeacher(BaseModel):
+    User: UserOut
+    Teacher: TeacherOut
+
 
 class NewPasswordIn(BaseModel):
     password: str
 
+
+class ResultInt(BaseModel):
+    results: int
+
+    class Config:
+        orm_mode = True
 

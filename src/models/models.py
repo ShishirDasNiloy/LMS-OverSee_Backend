@@ -13,7 +13,7 @@ class User(BaseModel):
     role_id = Column(Integer, ForeignKey("roles.id"))
 
     role = relationship("Role", back_populates="user")
-    user_details = relationship("UserDetail", back_populates="user")
+    # user_details = relationship("UserDetail", back_populates="user")
     teacher = relationship("Teacher", back_populates = "user_teacher")
     student = relationship("Student", back_populates = "user_student")
 
@@ -25,15 +25,14 @@ class Role(BaseModel):
     user = relationship("User", back_populates = "role")
 
 
-class UserDetail(BaseModel):
-    __tablename__ = "user_details"
-    user_id = Column(Integer, ForeignKey("users.id"))
-    fathers_name = Column(String(100), nullable = True)
-    mothers_name = Column(String(100), nullable = True)
-    dob = Column(Date, nullable=True)
-    blood_group = Column(String(5), nullable=True)
+# class UserDetail(BaseModel):
+#     __tablename__ = "user_details"
+#     user_id = Column(Integer, ForeignKey("users.id"))
+#     department = Column(String(255), nullable = True)
+#     dob = Column(Date, nullable=True)
+#     blood_group = Column(String(5), nullable=True)
 
-    user = relationship("User", back_populates="user_details")
+#     user = relationship("User", back_populates="user_details")
     
 
 
@@ -42,6 +41,7 @@ class Teacher(BaseModel):
     user_id = Column(Integer, ForeignKey("users.id"))
     teacher_id = Column(String(20), nullable = True)
     department = Column(String(255), nullable = True)
+    dob = Column(Date, nullable=True)
     designation = Column(String(50), nullable = True)
     degree = Column(String(255), nullable=True)
     institute = Column(String(255), nullable = True)
@@ -56,6 +56,7 @@ class Student(BaseModel):
     user_id = Column(Integer, ForeignKey("users.id"))
     student_id = Column(String(20), nullable = True)
     department = Column(String(255), nullable = True)
+    dob = Column(Date, nullable=True)
     admition_year = Column(Date, nullable = True)
     batch = Column(String(20), nullable = True)
 
@@ -84,10 +85,65 @@ class Topic(BaseModel):
     topic_name = Column(String(255), nullable = False)
     topic_type = Column(String(255), nullable = True)
     topic_details = Column(Text, nullable = True)
+    image_pdf_string = Column(String(255), nullable = True)
 
 
-class TopicDiscuss(BaseModel):
-    __tablename__ = "topic_discuss"
-    topic_id = Column(Integer, ForeignKey("topic.id"))
+class Notice(BaseModel):
+    __tablename__ = "notice"
+    created_by =  Column(Integer, nullable = False)
+    notice_title = Column(String(255), nullable = False)
+    notice_details = Column(Text, nullable = True)
+
+class Exam(BaseModel):
+    __tablename__ = "exam"
     user_id = Column(Integer, ForeignKey("users.id"))
-    discussion_details = Column(Text, nullable = True)
+    course_name = Column(String(255), nullable = False)
+    course_code = Column(String(50), nullable = False)
+    exam_code = Column(String(50), nullable = False)
+    exam_type = Column(String(255), nullable = False)
+    total_marks = Column(Integer, nullable = False)
+    time = Column(String(50), nullable = False)
+
+class ExamQuestions(BaseModel):
+    __tablename__ = "exam_questions"
+    exam_id = Column(Integer, ForeignKey("exam.id"))
+    question = Column(Text, nullable = True)
+    mark = Column(Integer, nullable = True)
+
+
+class ExamAns(BaseModel):
+    __tablename__ = "exam_ans"
+    exam_id = Column(Integer, ForeignKey("exam.id"))
+    user_id = Column(Integer, ForeignKey("users.id"))
+    mark =  Column(Integer, nullable = True)
+    ans_file_string = Column(String(255), nullable = True)
+
+
+class ExamWithStudent(BaseModel):
+    __tablename__ = "exam_with_student"
+    exam_id = Column(Integer, ForeignKey("exam.id"))
+    user_id = Column(Integer, ForeignKey("users.id"))
+
+
+# Not Worked
+# class TopicDiscuss(BaseModel):
+#     __tablename__ = "topic_discuss"
+#     topic_id = Column(Integer, ForeignKey("topic.id"))
+#     user_id = Column(Integer, ForeignKey("users.id"))
+#     discussion_details = Column(Text, nullable = True)
+
+
+# class ImagesLog(BaseModel):
+#     __tablename__ = "image_log"
+#     user_id = Column(Integer, ForeignKey("users.id"))
+#     name = Column(String(100))
+#     service_name = Column(String(100))
+#     image_string = Column(String(255))
+
+
+# class PdfLog(BaseModel):
+#     __tablename__ = "pdf_log"
+#     user_id = Column(Integer, ForeignKey("users.id"))
+#     name = Column(String(100))
+#     service_name = Column(String(100))
+#     pdf_string = Column(String(255))
