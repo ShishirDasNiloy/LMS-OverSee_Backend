@@ -1,6 +1,12 @@
 # OverSee
 
-> Learning Management System for Teachers and Students.
+### University Final Year Project 
+> Learning Management System for Teachers and Students - Backend API's
+
+## Functionality
+1. Admin: user management
+2. Teacher: Create classroom, upload topics, create simple exam, create notices
+3. Student: joun classroom to get the topics, attend exams, get notices  
 
 ## .env
 ```
